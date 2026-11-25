@@ -10,6 +10,7 @@ import time
 import urllib.error
 import urllib.parse
 import urllib.request
+import os
 
 # ==============================================================================
 # CONFIGURAÇÃO DE CREDENCIAIS
@@ -17,8 +18,11 @@ import urllib.request
 # 2. Crie uma integração (New) para pegar sua API Key.
 # 3. Na mesma tela, clique no link "Token" (ao lado da API Key) para autorizar e gerar o Token.
 # ==============================================================================
-API_KEY = "COLE_SUA_API_KEY_AQUI"
-TOKEN = "COLE_SEU_TOKEN_AQUI"
+# ==============================================================================
+# CONFIGURAÇÃO DE CREDENCIAIS (Via Variáveis de Ambiente)
+# ==============================================================================
+API_KEY = os.getenv("TRELLO_API_KEY")
+TOKEN = os.getenv("TRELLO_TOKEN")
 
 BASE_URL = "https://api.trello.com/1"
 
@@ -136,8 +140,12 @@ def create_card(
 
 
 def main():
-    if API_KEY == "COLE_SUA_API_KEY_AQUI" or TOKEN == "COLE_SEU_TOKEN_AQUI":
-        print("[ERRO] Preencha as variáveis API_KEY e TOKEN no topo do script antes de executar.")
+    if not API_KEY or not TOKEN:
+        print("[ERRO] Credenciais ausentes!")
+        print("Configure as variáveis de ambiente TRELLO_API_KEY e TRELLO_TOKEN antes de rodar.")
+        print("Exemplo no terminal Linux/Mac:")
+        print("export TRELLO_API_KEY='sua_chave'")
+        print("export TRELLO_TOKEN='seu_token'")
         sys.exit(1)
 
     # 1. Criar Quadro
